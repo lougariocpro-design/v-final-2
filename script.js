@@ -1,7 +1,7 @@
 let angle = 0
 let distance = 0
 
-let points = []
+let detections = []
 
 let port
 let reader
@@ -18,12 +18,21 @@ angleMode(DEGREES)
 
 function draw(){
 
-background(0)
+background(0,40)
 
 translate(width/2,height)
 
-stroke(0,255,120)
+drawRadarGrid()
 
+drawSweep()
+
+drawDetections()
+
+}
+
+function drawRadarGrid(){
+
+stroke(0,255,120)
 noFill()
 
 for(let r=100;r<=400;r+=100){
@@ -41,20 +50,35 @@ line(0,0,x,y)
 
 }
 
-stroke(0,255,0)
+}
+
+function drawSweep(){
+
+for(let i=0;i<15;i++){
+
+stroke(0,255,120,150-i*10)
 strokeWeight(3)
 
-let radarX=400*cos(angle)
-let radarY=-400*sin(angle)
+let a = angle - i*2
 
-line(0,0,radarX,radarY)
+let x = 400*cos(a)
+let y = -400*sin(a)
 
-for(let p of points){
+line(0,0,x,y)
+
+}
+
+}
+
+function drawDetections(){
+
+stroke(255,0,0)
+strokeWeight(5)
+
+for(let p of detections){
 
 let x=p.d*cos(p.a)
 let y=-p.d*sin(p.a)
-
-stroke(255,0,0)
 
 point(x,y)
 
@@ -102,15 +126,15 @@ let data=value.trim().split(",")
 
 if(data.length==2){
 
-angle=Number(data[0])
-distance=Number(data[1])
+angle = Number(data[0])
+distance = Number(data[1])
 
 document.getElementById("angle").innerText=angle
 document.getElementById("distance").innerText=distance
 
-let d=map(distance,0,200,0,400)
+let d = map(distance,0,200,0,400)
 
-points.push({a:angle,d:d})
+detections.push({a:angle,d:d})
 
 }
 
