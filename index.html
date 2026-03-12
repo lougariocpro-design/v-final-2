@@ -3,7 +3,8 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Arduino Radar</title>
+<title>Radar Scanner</title>
+
 <link rel="stylesheet" href="style.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
@@ -12,21 +13,27 @@
 
 <body>
 
-<h1>Arduino Radar Scanner</h1>
+<div class="container">
 
-<div class="controls">
+<h1 class="title">RADAR SCANNER</h1>
 
-<button onclick="connectBluetooth()" class="bluetooth">
-🔵 Connect Bluetooth
+<div class="panel">
+
+<button onclick="connectBluetooth()" class="btn bluetooth">
+Connect Bluetooth
 </button>
 
-<button onclick="changeColor()" class="color">
-🎨 Change Radar Color
+<button onclick="changeColor()" class="btn color">
+Change Radar Color
 </button>
 
 </div>
 
+<div class="radar-frame">
 <div id="radarCanvas"></div>
+</div>
+
+</div>
 
 <script src="script.js"></script>
 
