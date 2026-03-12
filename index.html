@@ -2,8 +2,10 @@
 <html lang="fr">
 
 <head>
+
 <meta charset="UTF-8">
-<title>Radar Scanner</title>
+
+<title>Futuristic Radar</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -13,24 +15,26 @@
 
 <body>
 
-<div class="container">
+<div class="interface">
 
-<h1 class="title">RADAR SCANNER</h1>
+<h1>ARDUINO RADAR SYSTEM</h1>
 
 <div class="panel">
 
-<button onclick="connectBluetooth()" class="btn bluetooth">
-Connect Bluetooth
-</button>
+<button onclick="connectSerial()">CONNECT ARDUINO</button>
 
-<button onclick="changeColor()" class="btn color">
-Change Radar Color
-</button>
+<div id="status">DISCONNECTED</div>
 
 </div>
 
-<div class="radar-frame">
-<div id="radarCanvas"></div>
+<div id="radar"></div>
+
+<div class="info">
+
+<div>ANGLE : <span id="angle">0</span></div>
+
+<div>DISTANCE : <span id="distance">0</span> cm</div>
+
 </div>
 
 </div>
