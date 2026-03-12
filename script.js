@@ -1,71 +1,121 @@
-body{
+let angle = 0
+let distance = 0
 
-margin:0;
-background:#010a05;
-font-family:Arial;
-color:#00ff9c;
-text-align:center;
+let points = []
 
-}
+let port
+let reader
 
-h1{
+function setup(){
 
-letter-spacing:4px;
-text-shadow:0 0 15px #00ff9c;
+let canvas = createCanvas(800,500)
 
-}
+canvas.parent("radar")
 
-.interface{
-
-padding-top:30px;
+angleMode(DEGREES)
 
 }
 
-.panel{
+function draw(){
 
-margin:20px;
+background(0)
 
-}
+translate(width/2,height)
 
-button{
+stroke(0,255,120)
 
-background:#00ff9c;
-color:black;
-border:none;
-padding:12px 25px;
-border-radius:8px;
-font-weight:bold;
-cursor:pointer;
+noFill()
 
-box-shadow:0 0 20px #00ff9c;
+for(let r=100;r<=400;r+=100){
+
+arc(0,0,r*2,r*2,180,360)
 
 }
 
-button:hover{
+for(let a=0;a<=180;a+=30){
 
-box-shadow:0 0 35px #00ff9c;
+let x=400*cos(a)
+let y=-400*sin(a)
 
-}
-
-#radar{
-
-display:flex;
-justify-content:center;
+line(0,0,x,y)
 
 }
 
-.info{
+stroke(0,255,0)
+strokeWeight(3)
 
-margin-top:20px;
-font-size:18px;
+let radarX=400*cos(angle)
+let radarY=-400*sin(angle)
+
+line(0,0,radarX,radarY)
+
+for(let p of points){
+
+let x=p.d*cos(p.a)
+let y=-p.d*sin(p.a)
+
+stroke(255,0,0)
+
+point(x,y)
 
 }
 
-canvas{
+}
 
-border:2px solid #00ff9c;
-border-radius:10px;
+async function connectSerial(){
 
-box-shadow:0 0 40px #00ff9c;
+try{
+
+port = await navigator.serial.requestPort()
+
+await port.open({ baudRate:9600 })
+
+document.getElementById("status").innerText="CONNECTED"
+
+readSerial()
+
+}catch(err){
+
+alert("connection refused")
+
+}
+
+}
+
+async function readSerial(){
+
+const decoder = new TextDecoderStream()
+
+port.readable.pipeTo(decoder.writable)
+
+reader = decoder.readable.getReader()
+
+while(true){
+
+const {value,done}=await reader.read()
+
+if(done) break
+
+if(value){
+
+let data=value.trim().split(",")
+
+if(data.length==2){
+
+angle=Number(data[0])
+distance=Number(data[1])
+
+document.getElementById("angle").innerText=angle
+document.getElementById("distance").innerText=distance
+
+let d=map(distance,0,200,0,400)
+
+points.push({a:angle,d:d})
+
+}
+
+}
+
+}
 
 }
