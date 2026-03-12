@@ -1,113 +1,71 @@
 body{
 
-background: radial-gradient(circle at center,#020b05,#000000);
-
+margin:0;
+background:#010a05;
+font-family:Arial;
 color:#00ff9c;
-
-font-family:Orbitron, Arial;
-
 text-align:center;
 
-margin:0;
+}
+
+h1{
+
+letter-spacing:4px;
+text-shadow:0 0 15px #00ff9c;
 
 }
 
-.container{
+.interface{
 
-padding-top:40px;
-
-}
-
-.title{
-
-letter-spacing:5px;
-
-text-shadow:0 0 20px #00ff9c;
+padding-top:30px;
 
 }
 
 .panel{
 
-margin:25px;
+margin:20px;
 
 }
 
-.btn{
+button{
 
-padding:12px 22px;
-
-margin:10px;
-
-border-radius:10px;
-
+background:#00ff9c;
+color:black;
 border:none;
-
-font-size:15px;
-
+padding:12px 25px;
+border-radius:8px;
+font-weight:bold;
 cursor:pointer;
 
-transition:0.3s;
+box-shadow:0 0 20px #00ff9c;
 
 }
 
-.bluetooth{
+button:hover{
 
-background:#0066ff;
-
-color:white;
-
-box-shadow:0 0 10px #0066ff;
+box-shadow:0 0 35px #00ff9c;
 
 }
 
-.bluetooth:hover{
-
-box-shadow:0 0 20px #0066ff;
-
-transform:scale(1.1);
-
-}
-
-.color{
-
-background:#00aa55;
-
-color:white;
-
-box-shadow:0 0 10px #00ff88;
-
-}
-
-.color:hover{
-
-box-shadow:0 0 20px #00ff88;
-
-transform:scale(1.1);
-
-}
-
-.radar-frame{
+#radar{
 
 display:flex;
-
 justify-content:center;
 
-margin-top:30px;
+}
+
+.info{
+
+margin-top:20px;
+font-size:18px;
+
+}
+
+canvas{
 
 border:2px solid #00ff9c;
-
-border-radius:20px;
-
-padding:20px;
-
-width:820px;
-
-margin-left:auto;
-
-margin-right:auto;
+border-radius:10px;
 
 box-shadow:0 0 40px #00ff9c;
-
-background:rgba(0,0,0,0.6);
 
 }
