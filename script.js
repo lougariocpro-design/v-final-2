@@ -1,89 +1,71 @@
-let angle = 0
-let direction = 1
-let radarColor = [0,255,150]
+body{
 
-function setup(){
-
-let canvas = createCanvas(800,500)
-
-canvas.parent("radarCanvas")
-
-angleMode(DEGREES)
+margin:0;
+background:#010a05;
+font-family:Arial;
+color:#00ff9c;
+text-align:center;
 
 }
 
-function draw(){
+h1{
 
-background(0)
-
-translate(width/2,height)
-
-stroke(radarColor)
-
-strokeWeight(2)
-
-noFill()
-
-for(let r=100;r<=400;r+=100){
-
-arc(0,0,r*2,r*2,180,360)
+letter-spacing:4px;
+text-shadow:0 0 15px #00ff9c;
 
 }
 
-for(let a=0;a<=180;a+=30){
+.interface{
 
-let x = 400*cos(a)
-
-let y = -400*sin(a)
-
-line(0,0,x,y)
+padding-top:30px;
 
 }
 
-strokeWeight(4)
+.panel{
 
-let x = 400*cos(angle)
-
-let y = -400*sin(angle)
-
-line(0,0,x,y)
-
-angle += direction*2
-
-if(angle>=180 || angle<=0){
-
-direction *= -1
+margin:20px;
 
 }
 
-}
+button{
 
-function changeColor(){
+background:#00ff9c;
+color:black;
+border:none;
+padding:12px 25px;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
 
-radarColor = [
-random(100,255),
-random(100,255),
-random(100,255)
-]
-
-}
-
-async function connectBluetooth(){
-
-try{
-
-const device = await navigator.bluetooth.requestDevice({
-acceptAllDevices:true
-})
-
-await device.gatt.connect()
-
-alert("Bluetooth connecté")
-
-}catch(e){
-
-alert("Connexion refusée")
+box-shadow:0 0 20px #00ff9c;
 
 }
+
+button:hover{
+
+box-shadow:0 0 35px #00ff9c;
+
+}
+
+#radar{
+
+display:flex;
+justify-content:center;
+
+}
+
+.info{
+
+margin-top:20px;
+font-size:18px;
+
+}
+
+canvas{
+
+border:2px solid #00ff9c;
+border-radius:10px;
+
+box-shadow:0 0 40px #00ff9c;
 
 }
