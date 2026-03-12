@@ -86,26 +86,52 @@ point(x,y)
 
 }
 
-async function connectSerial(){
+function connectBluetoothHM10(){
 
-try{
+let bluetoothDevice;
+let bluetoothServer;
+let bluetoothCharacteristic;
 
-port = await navigator.serial.requestPort()
+async function connectBluetoothHM10() {
+  try {
+    // Demande de connexion au HM-10
+    bluetoothDevice = await navigator.bluetooth.requestDevice({
+      filters: [{ namePrefix: 'HM' }], // ou le nom exact de ton module
+      optionalServices: ['0000ffe0-0000-1000-8000-00805f9b34fb'] // service HM-10
+    });
 
-await port.open({ baudRate:9600 })
+    bluetoothServer = await bluetoothDevice.gatt.connect();
 
-document.getElementById("status").innerText="CONNECTED"
+    const service = await bluetoothServer.getPrimaryService('0000ffe0-0000-1000-8000-00805f9b34fb');
+    bluetoothCharacteristic = await service.getCharacteristic('0000ffe1-0000-1000-8000-00805f9b34fb');
 
-readSerial()
+    await bluetoothCharacteristic.startNotifications();
+    bluetoothCharacteristic.addEventListener('characteristicvaluechanged', handleBLEData);
 
-}catch(err){
+    document.getElementById("status").innerText = "CONNECTED";
 
-alert("connection refused")
-
+  } catch (error) {
+    alert("Connexion Bluetooth échouée : " + error);
+  }
 }
 
-}
+function handleBLEData(event) {
+  const value = new TextDecoder().decode(event.target.value);
+  const data = value.trim().split(",");
+  if (data.length === 2) {
+    angle = Number(data[0]);
+    distance = Number(data[1]);
 
+    document.getElementById("angle").innerText = angle;
+    document.getElementById("distance").innerText = distance;
+
+    let d = map(distance, 0, 200, 0, 400);
+    detections.push({ a: angle, d: d });
+    
+    // Limiter le nombre de points pour la fluidité
+    if (detections.length > 200) detections.shift();
+  }
+}
 async function readSerial(){
 
 const decoder = new TextDecoderStream()
