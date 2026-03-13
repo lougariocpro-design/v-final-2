@@ -80,19 +80,34 @@ async function connectBluetoothHM10() {
   }
 }
 
+let buffer = "";
+
 function handleBLEData(event){
+
   const value = new TextDecoder().decode(event.target.value);
-  const data = value.trim().split(",");
-  if(data.length === 2){
-    angle = Number(data[0]);
-    distance = Number(data[1]);
+  buffer += value;
 
-    document.getElementById("angle").innerText = angle;
-    document.getElementById("distance").innerText = distance;
+  let lines = buffer.split("\n");
+  buffer = lines.pop();
 
-    let d = map(distance, 0, 200, 0, 400);
-    detections.push({a: angle, d: d});
+  for(let line of lines){
 
-    if(detections.length > 200) detections.shift(); // limiter le nombre de points
+    let data = line.trim().split(",");
+
+    if(data.length === 2){
+
+      angle = Number(data[0]);
+      distance = Number(data[1]);
+
+      document.getElementById("angle").innerText = angle;
+      document.getElementById("distance").innerText = distance;
+
+      let d = map(distance,0,200,0,400);
+
+      detections.push({a:angle,d:d});
+
+      if(detections.length > 200) detections.shift();
+
+    }
   }
 }
